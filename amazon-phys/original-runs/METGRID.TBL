@@ -1,0 +1,191 @@
+========================================
+name=ST
+	z_dim_name=num_st_layers
+        derived=yes
+# IF
+        fill_lev =  10 : ST000010(200100)
+        fill_lev =  40 : ST010040(200100)
+        fill_lev = 100 : ST040100(200100)
+        fill_lev = 200 : ST100200(200100)
+# ELSE IF
+        fill_lev =  10 : ST000010(200100)
+        fill_lev =  35 : ST010035(200100)
+        fill_lev = 100 : ST035100(200100)
+        fill_lev = 300 : ST100300(200100)
+# ELSE IF
+        fill_lev =  10 : ST000010(200100)
+        fill_lev = 200 : ST010200(200100)
+# ELSE
+        fill_lev =   7 : ST000007(200100)
+        fill_lev =  28 : ST007028(200100)
+        fill_lev = 100 : ST028100(200100)
+        fill_lev = 289 : ST100289(200100)
+========================================
+name=SM
+        z_dim_name=num_sm_layers
+        derived=yes
+# IF
+        fill_lev =  10 : SM000010(200100)
+        fill_lev =  40 : SM010040(200100)
+        fill_lev = 100 : SM040100(200100)
+        fill_lev = 200 : SM100200(200100)
+# ELSE IF
+        fill_lev =  10 : SM000010(200100)
+        fill_lev =  35 : SM010035(200100)
+        fill_lev = 100 : SM035100(200100)
+        fill_lev = 300 : SM100300(200100)
+# ELSE IF
+        fill_lev =  10: SM000010(200100)
+        fill_lev = 200 : SM010200(200100)
+# ELSE
+        fill_lev =   7 : SM000007(200100)
+        fill_lev =  28 : SM007028(200100)
+        fill_lev = 100 : SM028100(200100)
+        fill_lev = 289 : SM100289(200100)
+========================================
+name=SOIL_LAYERS
+        derived=yes
+        z_dim_name=num_st_layers
+        flag_in_output=FLAG_SOIL_LAYERS
+        fill_lev=all:vertical_index; level_template=ST
+========================================
+name=PRES
+		interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        z_dim_name=num_metgrid_levels
+        derived=yes
+        mandatory=yes    # MUST HAVE THIS FIELD
+        fill_lev=all:PRESSURE
+        fill_lev=200100:PSFC(200100)
+        fill_lev=all:vertical_index; level_template=TT
+========================================
+name=LANDSEA
+        interp_option=nearest_neighbor
+        fill_missing=-1.
+        fill_lev=200100:LANDMASK(1)
+========================================
+name=SKINTEMP
+mpas_name=skintemp
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        masked=both
+        interp_land_mask  = LANDSEA(1)
+        interp_water_mask = LANDSEA(0)
+        fill_missing=0.
+========================================
+name=PSFC
+mpas_name=surface_pressure
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        fill_lev=200100:const(200100.)
+        flag_in_output=FLAG_PSFC
+========================================
+name=SM000010
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        masked=water
+        missing_value=-1.E30
+        fill_missing=1.
+        flag_in_output=FLAG_SM000010
+========================================
+name=SM010200
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        masked=water
+        missing_value=-1.E30
+        fill_missing=1.
+        flag_in_output=FLAG_SM010200
+========================================
+name=ST000010
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        masked=water
+        missing_value=-1.E30
+        fill_missing=285.
+        flag_in_output=FLAG_ST000010
+========================================
+name=ST010200
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        masked=water
+        missing_value=-1.E30
+        fill_missing=285.
+        flag_in_output=FLAG_ST010200
+========================================
+name=PMSL
+mpas_name=mslp
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        flag_in_output=FLAG_SLP
+========================================
+name=RH
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        fill_missing=0.
+        fill_lev=200100:const(-1.E30)
+========================================
+name=T ; output_name=TT  # If we get T, use entry from TT and
+                         #   write the field out as TT
+========================================
+name=TT
+mpas_name=theta
+        mandatory=yes    # MUST HAVE THIS FIELD
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        fill_missing=0.
+        fill_lev=200100:const(-1.E30)
+========================================
+name=U ; output_name=UU  # If we get U, use entry from UU and
+                         #   write the field out as UU
+========================================
+name=UU
+mpas_name=uReconstructZonal
+        mandatory=yes    # MUST HAVE THIS FIELD
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        is_u_field=yes
+        output_stagger=U
+        fill_missing=0.
+        fill_lev=200100:const(-1.E30)
+========================================
+name=V ; output_name=VV  # If we get V, use entry from VV and
+                         #   write the field out as VV
+========================================
+name=VV
+mpas_name=uReconstructMeridional
+        mandatory=yes    # MUST HAVE THIS FIELD
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        is_v_field=yes
+        output_stagger=V
+        fill_missing=0.
+        fill_lev=200100:const(-1.E30)
+========================================
+name=SST
+        interp_option=sixteen_pt+four_pt
+        fill_missing=0.
+        missing_value=-1.E30
+        flag_in_output=FLAG_SST
+========================================
+name=PRESSURE
+mpas_name=pressure
+        interp_option=sixteen_pt+four_pt+average_4pt
+        fill_missing=0.
+        fill_lev=200100:PSFC(200100)
+========================================
+name=GHT
+mpas_name=zgrid
+        interp_option=wt_average_16pt+wt_average_4pt+sixteen_pt+four_pt+search
+        fill_missing=0.
+        fill_lev=200100:SOILHGT(200100)
+        fill_lev=200100:HGT_M(1)
+========================================
+name=H0ML
+        interp_option=four_pt+average_4pt
+        interp_mask=LANDSEA(1)
+        masked=land
+        fill_missing=0.
+========================================
+name=TMOML
+        interp_option=nearest_neighbor
+#       interp_option=sixteen_pt+four_pt+wt_average_4pt+search
+        masked=land
+        interp_mask=landmask(1)
+        missing_value=200.
+        fill_missing=-20.
+========================================
+name=T0
+        interp_option=four_pt+average_4pt+search
+        masked=land
+        interp_mask=landmask(1)
+        missing_value=200.
+        fill_missing=-20.
+========================================

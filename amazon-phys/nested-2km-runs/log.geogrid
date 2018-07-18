@@ -1,0 +1,1 @@
+./qsub_geogrid.sh: line 28: mpiexec_mpt: command not found

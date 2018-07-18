@@ -1,0 +1,10 @@
+WRF_400_noahmp
+
+WRF_1000_noahmp
+
+copy and untar WRF and WPS tar files
+then cd into WRF
+
+./configure -hyb  (choosing 15)
+./compile em_real >& log.compile   finished (after a LONG time)
+wps:  doing same grid as other runs, so keep these

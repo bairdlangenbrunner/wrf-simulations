@@ -1,0 +1,196 @@
+export DIR=/glade/p/work/baird/WRF
+export CC=icc
+export CXX=g++
+export FC=ifort
+export FCFLAGS=-m64
+export F77=ifort
+export FFLAGS=-m64
+export NETCDF=/glade/apps/opt/netcdf/4.3.0/intel/12.1.5
+export JASPERLIB=/glade/u/home/wrfhelp/UNGRIB_LIBRARIES/lib
+export JASPERINC=/glade/u/home/wrfhelp/UNGRIB_LIBRARIES/include
+
+
+/glade/apps/opt/netcdf/4.3.0/intel/12.1.5
+
+
+
+
+
+
+
+
+
+copy WRF stuff
+
+/glade/p/work/baird/WRF
+
+cd into WRFV3
+./configure -hyb
+(select option 15) - INTEL compiler, ifort/icc, dmpar
+
+didn't seem to work... trying option 28 now (intel with POE)
+################################################################################
+################################################################################
+################################################################################
+./compile em_real >& log.compile
+WORKED
+
+tar xvfz WPSV3.9.0.1.TAR.gz
+cd WPS
+./configure
+(choose option 19 - INTEL, dmpar)
+(still used 19)
+################################################################################
+################################################################################
+################################################################################
+edit namelist.wps to be everything in 001 directory
+./compile >& log.compile
+
+
+created a file called bsub_geogrid.sh
+
+placed in it this stuff:
+################################################################################
+################################################################################
+################################################################################
+#!/bin/bash
+#
+#BSUB -a poe                  # set parallel operating environment
+#BSUB -P P35681102         # project code
+#BSUB -J geogrid      # job name
+#BSUB -W 00:30                # wall-clock time (hrs:mins)
+#BSUB -n 32                   # number of tasks in job
+#BSUB -R "span[ptile=4]"      # run four MPI tasks per node
+#BSUB -q regular              # queue
+#BSUB -e errors.geogrid     # error file name in which %J is replaced by the job ID
+#BSUB -o output.geogrid     # output file name in which %J is replaced by the job ID
+
+export OMP_NUM_THREADS=4
+export MP_TASK_AFFINITY=core:$OMP_NUM_THREADS
+
+mpirun.lsf ./geogrid.exe
+exit
+
+################################################################################
+################################################################################
+################################################################################
+
+then run link_grib.csh
+./link_grib.csh ../DATA/fnl_20120601_*
+
+then link Vtable
+ln -s ungrib/Variable_Tables/Vtable.GFS Vtable
+
+RUNNING ungrib.exe
+################################################################################
+################################################################################
+################################################################################\
+
+#!/bin/bash
+#
+#BSUB -a poe                  # set parallel operating environment
+#BSUB -P P35681102         # project code
+#BSUB -J ungrib      # job name
+#BSUB -W 00:02                # wall-clock time (hrs:mins)
+#BSUB -n 1                   # number of tasks in job
+#BSUB -R "span[ptile=4]"      # run four MPI tasks per node
+#BSUB -q regular              # queue
+#BSUB -e errors.ungrib     # error file name in which %J is replaced by the job ID
+#BSUB -o output.ungrib     # output file name in which %J is replaced by the job ID
+
+export OMP_NUM_THREADS=4
+export MP_TASK_AFFINITY=core:$OMP_NUM_THREADS
+
+mpirun.lsf ./ungrib.exe
+exit
+################################################################################
+################################################################################
+################################################################################
+
+ONCE UNGRIB IS FINISHED YOU CAN CHECK UNGRIB.LOG WHICH IS AUTOMATICALLY CREATED IN WPS DIRECTORY
+
+################################################################################
+################################################################################
+################################################################################
+
+NOW RUN MPIRUN FOR METGRID.EXE
+
+
+#!/bin/bash
+#
+#BSUB -a poe                  # set parallel operating environment
+#BSUB -P P35681102         # project code
+#BSUB -J metgrid      # job name
+#BSUB -W 00:10                # wall-clock time (hrs:mins)
+#BSUB -n 32                   # number of tasks in job
+#BSUB -R "span[ptile=4]"      # run four MPI tasks per node
+#BSUB -q regular              # queue
+#BSUB -e errors.metgrid     # error file name in which %J is replaced by the job ID
+#BSUB -o output.metgrid     # output file name in which %J is replaced by the job ID
+
+export OMP_NUM_THREADS=4
+export MP_TASK_AFFINITY=core:$OMP_NUM_THREADS
+
+mpirun.lsf ./metgrid.exe
+exit
+
+(NOTE THIS BSUB FILE ^ WORKED!!1!11)
+
+
+then did bsub < bsub_geogrid.sh
+https://www2.cisl.ucar.edu/resources/computational-systems/yellowstone/using-computing-resources/running-jobs
+
+
+################################################################################
+################################################################################
+################################################################################
+edit namelist.input in WRF/run directory
+
+
+then run ./real.exe
+
+bsub < bsub_real.sh
+
+
+#!/bin/bash
+#
+#BSUB -a poe                  # set parallel operating environment
+#BSUB -P P35681102         # project code
+#BSUB -J real      # job name
+#BSUB -W 00:10                # wall-clock time (hrs:mins)
+#BSUB -n 32                  # number of tasks in job
+#BSUB -R "span[ptile=4]"      # run four MPI tasks per node
+#BSUB -q regular              # queue
+#BSUB -e errors.real     # error file name in which %J is replaced by the job ID
+#BSUB -o output.real     # output file name in which %J is replaced by the job ID
+
+export OMP_NUM_THREADS=4
+export MP_TASK_AFFINITY=core:$OMP_NUM_THREADS
+
+mpirun.lsf ./real.exe
+exit
+
+################################################################################
+################################################################################
+################################################################################
+#!/bin/bash
+#
+#BSUB -a poe                  # set parallel operating environment
+#BSUB -P P35681102         # project code
+#BSUB -J wrf      # job name
+#BSUB -W 01:00                # wall-clock time (hrs:mins)
+#BSUB -n 32                   # number of tasks in job
+#BSUB -R "span[ptile=4]"      # run four MPI tasks per node
+#BSUB -q regular              # queue
+#BSUB -e errors.wrf     # error file name in which %J is replaced by the job ID
+#BSUB -o output.wrf     # output file name in which %J is replaced by the job ID
+
+export OMP_NUM_THREADS=4
+export MP_TASK_AFFINITY=core:$OMP_NUM_THREADS
+
+mpirun.lsf ./wrf.exe
+exit
+
+
+
+looks like "pco2" is an option in CLM...

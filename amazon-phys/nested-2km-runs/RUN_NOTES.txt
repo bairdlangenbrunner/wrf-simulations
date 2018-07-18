@@ -1,0 +1,24 @@
+Once I got the domains working, I learned a few things:
+
+Use variable time step
+
+
+
+
+
+Then cd into the WRFV3 directory and issue a 
+
+./clean -a
+./configure -hyb [24]
+./compile -j 4 em_real >& log.compile [-j 4 compiles in parallel]
+
+Now copy the geo_em files into the correct WPS directories...
+
+ln -s the met_em files into the run directory
+[Note:  the real.exe program didn't work, so I had to:
+./clean -a
+./configure -hyb
+./compile (this time without -j 4, perhaps this is the issue)
+
+Then it all worked...
+

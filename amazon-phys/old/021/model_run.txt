@@ -1,0 +1,54 @@
+in WPS
+
+./clean -a
+./configure [19]
+./compile >& log.compile
+
+edit configure.wps
+bsub < bsub_geogrid.sh   (geogrid.exe)
+
+creates geo_em.d01.nc
+
+./link_grib.csh /glade/scratch/baird/RTG_SST_DOWNLOAD/rtg_sst_grb_0.5.201001* .
+
+ln -sf ungrib/Variable_Tables/Vtable.SST Vtable
+
+NOTE that the SST grib files are only 1 per day
+So to be able to extrapolate to 2010-1-31:00, 06, 18, you need to ALSO include 2010-2-01
+AND add this to the WPS
+
+ max_dom = 1,
+ start_date = '2010-01-01_00:00:00',
+ end_date   = '2010-02-01_00:00:00',
+ interval_seconds = 21600
+ io_form_geogrid = 2,
+ 
+ 
+  max_dom = 1,
+ start_date = '2010-01-01_00:00:00',
+ end_date   = '2010-01-31_18:00:00',
+ interval_seconds = 21600
+ io_form_geogrid = 2,
+ 
+ 
+ 
+ 
+ bsub to wait till metgrid.exe is finished:
+ 
+ 772683  baird   RUN   regular    yslogin1-ib 16*ys1901-i metgrid    Sep  5 18:48
+                                             16*ys1902-ib
+                                             16*ys1903-ib
+                                             16*ys1904-ib
+                                             16*ys3526-ib
+                                             16*ys3527-ib
+                                             16*ys3528-ib
+                                             16*ys3529-ib
+                                             16*ys3530-ib
+                                             16*ys4427-ib
+                                             16*ys4428-ib
+                                             16*ys4429-ib
+                                             16*ys4430-ib
+                                             16*ys4431-ib
+                                             16*ys4432-ib
+                                             16*ys4511-ib
+-bash-4.1$ bsub -w "done(772683)" < bsub_wrf.sh

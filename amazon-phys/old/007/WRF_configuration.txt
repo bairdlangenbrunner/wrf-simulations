@@ -1,0 +1,37 @@
+export DIR=/glade/p/work/baird/WRF or WRF_400 or WRF_1000
+export CC=icc
+export CXX=g++
+export FC=ifort
+export FCFLAGS=-m64
+export F77=ifort
+export FFLAGS=-m64
+export NETCDF=/glade/apps/opt/netcdf/4.3.0/intel/12.1.5
+export JASPERLIB=/glade/u/home/wrfhelp/UNGRIB_LIBRARIES/lib
+export JASPERINC=/glade/u/home/wrfhelp/UNGRIB_LIBRARIES/include
+
+TO COMPILE CORRECTLY YOU MUST USE THE ABOVE
+
+/glade/apps/opt/netcdf/4.3.0/intel/12.1.5
+
+retrying everything
+
+./clean -a in wrf
+./configure -hyb (OPTION 28 WORKS ON YELLOWSTONE) -- actually trying 15 now
+CHANGE THE CLM PCO2 VALUES NOW BEFORE COMPILING
+use bsub < bsub_compile.sh (seeing if compiling in parallel works)
+
+The key is that you ./clean -a wrf stuff, then ./configure, then change phys parameterizations
+THEN you can compile
+
+Tried recycling all WPS stuff from before.  Seeing if it worked...
+
+real.exe didn't work well just yet - seemed to be trying to start on 1993??
+trying to re-run metgrid.exe first, and then real.exe, to see if metgrid.exe affects where real.exe starts...
+
+worked, genuinely don't know why
+
+
+
+
+
+NOW TRYING TO RUN WRF_400 from the info (GRIBFILES, FILE:s, and met_em files) in WRF (orig: 1000)

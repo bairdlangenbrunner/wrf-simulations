@@ -1,0 +1,30 @@
+./configure -hyb
+
+(DO NOT use same compiler, 15)
+USE 24, this is the one they use in the Cheyenne intro slides
+
+needed to add "module load netcdf" to my .profile
+
+for WPS ./configure (option 23)
+
+IF IT CAN'T FIND libpthread_nonshared.a you may need to point to where the UNGRIB libraries are
+then make sure the configure.wps
+
+COMPRESSION_LIBS = -L/${DIR}/UNGRIB_LIBRARIES/lib –ljasper –lpng –lz
+COMPRESSION_INC	= -I/${DIR}/UNGRIB_LIBRARIES/include	
+
+
+
+
+
+
+
+NESTED RUN
+
+make directory, tar xvfz the directories
+
+cd into WRFV3
+./configure -hyb [option 24 - INTEL SGI MPT]
+
+chose option 23 for WPS ./configure
+

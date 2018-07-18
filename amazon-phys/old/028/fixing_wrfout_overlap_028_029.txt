@@ -1,0 +1,13 @@
+028 worked fine, ONLY NEEDED FOR 029
+
+mv wrfout_d01_2010-02-2?_00:00:00 overlap/
+
+cp overlap/wrfout_d01_2010-02-20_00\:00\:00 .
+
+ncea -F -d time,first,last in.out out.nc
+
+ncea -F -d Time,1,1 wrfout_d01_2010-02-20_00\:00\:00 out.nc
+
+mv out.nc wrfout_d01_2010-02-20_00\:00\:00
+
+mv wrfout_d01_2010-03-01_00\:00\:00 overlap/
