@@ -46,14 +46,31 @@ Do this in these steps:
   1. run geogrid
   2. run ungrib
   3. run metgrid
-  4. run wrf
+  4. run real
+  5. run wrf
 
 **running geogrid**  
-* depends on ```namelist.wps``` (lat/lon information, east/west extent, dx and dy)
+* Depends on ```namelist.wps``` (lat/lon information, east/west extent, dx and dy)
 
 **running ungrib**  
 * depends on ```namelist.wps```
   * ```start_date```
   * ```end_date```
   * ```interval_seconds``` (seconds between output files)
-* also requires a correct ```Vtable``` file; see ```Vtable_NCEP2_edited_for_idealized_forcing.txt``` in this directory
+* Also requires a correct ```Vtable``` file; see ```Vtable_NCEP2_edited_for_idealized_forcing.txt``` in this directory
+* Here you use ```link_grib.csh``` to get the 4 ```.grb``` files from the output of step 5 above
+
+The ungrib program produces a series of ```FILE:year:month:day_timestamp``` files.  From here, use metgrid.
+
+**running metgrid**  
+* One of the most important aspects is using a correct ```METGRID.TBL``` file
+  - This guides metgrid on how to interpolate fields and was one of the most thorny aspects of getting the NCEP2 reanalyis data into the proper WRF forcing format
+  - Use the ```edited_METGRID.TBL``` file in this directory for reference
+* Make sure the ```start_date``` and ```end_date``` are correct
+* The ```end_date``` should correspond exactly with the end date of the ```.grb``` file
+* Successful completion of metgrid gives ```met_em.d01.year-month-day-timestamp.nc``` files as output
+
+**ONCE METGRID IS COMPLETE:**  
+* Copy the ```.nc``` output files and change their timestep to create a repeating diurnal cycle
+* Use the ```copy_met_files_FMAASO_d01.py``` file to propogate them
+* At the time of writing this (2018-07-18), these files were already copied in ```/glade/scratch/baird/NCEP2_MEAN_FILES/METGRID_FILES_COPIED```
