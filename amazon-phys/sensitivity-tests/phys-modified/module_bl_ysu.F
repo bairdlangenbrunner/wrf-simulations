@@ -30,6 +30,8 @@ contains
                   ids,ide, jds,jde, kds,kde,                                   &
                   ims,ime, jms,jme, kms,kme,                                   &
                   its,ite, jts,jte, kts,kte,                                   &
+! added by baird
+                  xkzqout,xkzhout,xkzmout,                                     &
                 !optional
                   regime                                           )
 !-------------------------------------------------------------------------------
@@ -176,6 +178,11 @@ contains
    integer,  dimension( ims:ime, jms:jme )                                   , &
              intent(out  )   ::                                        kpbl2d
    logical,  intent(in)      ::                                       flag_qi
+
+!!!!!!!!!! added by baird
+   real, dimension(ims:ime, kms:kme, jms:jme)                                , &
+             intent(out)     :: xkzqout,xkzhout,xkzmout
+!!!!!!!!!! end added by baird
 !
 !optional
 !
@@ -267,6 +274,16 @@ contains
          if(present(rqiblten)) rqiblten(i,k,j) = rqvbl2dt(i,k+kte+kte)
        enddo
      enddo
+!
+!!!!!!!!!! added by baird to fill in 3d versions of xkzq,xkzh,xkzm
+     do k = kts,kte
+       do i = its,ite
+         xkzqout(i,k,j) = xkzq(i,k)
+         xkzhout(i,k,j) = xkzh(i,k)
+         xkzmout(i,k,j) = xkzm(i,k)
+       enddo
+     enddo
+!!!!!!!!!! end added by baird
 !
    enddo
 !
@@ -462,8 +479,8 @@ contains
                                                                         prpbl, &
                                                               wspd1,thermalli
 !
-! added as inout by baird
-   real, dimension(its:ite, kts:kte), optional, intent(out) :: xkzq,xkzm,xkzh
+! added as intent out by baird
+   real, dimension(its:ite, kts:kte), intent(out) :: xkzq,xkzm,xkzh
 !
 ! made more compact by baird (took out xkzq, xkzm, xkzh and put above)
    real, dimension(its:ite, kts:kte) :: f1,f2,r1,r2, &
@@ -1760,5 +1777,4 @@ contains
 ! ==================================================================
 
 end module module_bl_ysu
-!-------------------------------------------------------------------------------
-
+!---------------------------------------------------
