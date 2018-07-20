@@ -274,6 +274,7 @@ contains
 !
 !-------------------------------------------------------------------------------
 !
+! baird also added xkzq, xkzh, xkzm to subroutine
    subroutine ysu2d(j,ux,vx,tx,qx,p2d,p2di,pi2d,                               &
                   utnp,vtnp,ttnp,qtnp,ndiff,                                   &
                   cp,g,rovcp,rd,rovg,ep1,ep2,karman,xlv,rv,                    &
@@ -292,6 +293,7 @@ contains
                   ids,ide, jds,jde, kds,kde,                                   &
                   ims,ime, jms,jme, kms,kme,                                   &
                   its,ite, jts,jte, kts,kte,                                   &
+                  xkzq,xkzh,xkzm,                                         &
                 !optional
                   regime )
 !-------------------------------------------------------------------------------
@@ -460,16 +462,13 @@ contains
                                                                         prpbl, &
                                                               wspd1,thermalli
 !
-   real,    dimension( its:ite, kts:kte )    ::                     xkzm,xkzh, &
-                                                                        f1,f2, &
-                                                                        r1,r2, &
-                                                                        ad,au, &
-                                                                           cu, &
-                                                                           al, &
-                                                                         xkzq, &
-                                                                         zfac, &
-                                                                        rhox2, &
-                                                                       hgamt2
+! added as inout by baird
+   real, dimension(its:ite, kts:kte), optional, intent(out) :: xkzq,xkzm,xkzh
+!
+! made more compact by baird (took out xkzq, xkzm, xkzh and put above)
+   real, dimension(its:ite, kts:kte) :: f1,f2,r1,r2, &
+                                         ad,au,cu,al, &
+                                         zfac,rhox2,hgamt2  
 !
 !jdf added exch_hx
 !
@@ -489,7 +488,8 @@ contains
                                                                     brcr_sbro
 !
    real,    dimension( its:ite, kts:kte, ndiff)  ::                     r3,f3
-   integer, dimension( its:ite )             ::                  kpbl,kpblold
+   integer, dimension( its:ite )             ::                        kpblold, &
+                                                                        kpbl
 !
    logical, dimension( its:ite )             ::                        pblflg, &
                                                                        sfcflg, &
@@ -1761,3 +1761,4 @@ contains
 
 end module module_bl_ysu
 !-------------------------------------------------------------------------------
+

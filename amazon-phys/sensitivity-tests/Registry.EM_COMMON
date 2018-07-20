@@ -50,6 +50,21 @@
 # table entries are of the form
 #<Table> <Type> <Sym>         <Dims>   <Use>   <NumTLev> <Stagger> <IO>     <DNAME>             <DESCRIP>     <UNITS>
 #
+
+########## added by baird ##########
+
+state    real  xkzq             ik       misc        1         -     h     "xkzq"              "vertical diffusivity coefficient for q"      "units unclear"
+
+state    real  xkzm             ik       misc        1         -     h     "xkzm"              "vertical diffusivity coefficient for m"      "units unclear"
+
+state    real  xkzh             ik       misc        1         -     h     "xkzh"              "vertical diffusivity coefficient for h"      "units unclear"
+
+state    integer kpbl2d         ik       misc        1         -     h     "kpbl2d"              "vertical coordinate index of PBL location"   "unitless"
+
+####################################
+
+
+
 state    real  XLAT             ij      misc        1         -     i0123rh0156{22}{23}du=(copy_fcnm)      "XLAT"                "LATITUDE, SOUTH IS NEGATIVE"                                          "degree_north"
 state    real  XLONG            ij      misc        1         -     i0123rh0156{22}{23}d=(interp_fcn_blint_ll:xlat,input_from_file)u=(copy_fcnm)      "XLONG"               "LONGITUDE, WEST IS NEGATIVE"                                          "degree_east"
 
@@ -1262,16 +1277,16 @@ state    real  RQGSHTEN        ikj      misc        1         -      r        "R
 state    real  RQCNSHTEN       ikj      misc        1         -      r        "RQCNSHTEN"             "Q_CN TENDENCY DUE TO SHALLOW CUMULUS SCHEME"     "# kg-1 s-1"
 state    real  RQINSHTEN       ikj      misc        1         -      r        "RQINSHTEN"             "Q_IN TENDENCY DUE TO SHALLOW CUMULUS SCHEME"     "# kg-1 s-1"
 
-state    real  RUCUTEN         ikj      misc        1         -      r        "RUCUTEN"               "X WIND TENDENCY DUE TO CUMULUS PARAMETERIZATION"  "m s-2"
-state    real  RVCUTEN         ikj      misc        1         -      r        "RVCUTEN"               "Y WIND TENDENCY DUE TO CUMULUS PARAMETERIZATION"  "m s-2"
-state    real  RTHCUTEN        ikj      misc        1         -      r        "RTHCUTEN"              "THETA TENDENCY DUE TO CUMULUS SCHEME"     "K s-1"
-state    real  RQVCUTEN        ikj      misc        1         -      r        "RQVCUTEN"              "Q_V TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
-state    real  RQRCUTEN        ikj      misc        1         -      r        "RQRCUTEN"              "Q_R TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
-state    real  RQCCUTEN        ikj      misc        1         -      r        "RQCCUTEN"              "Q_C TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
-state    real  RQSCUTEN        ikj      misc        1         -      r        "RQSCUTEN"              "Q_S TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
-state    real  RQICUTEN        ikj      misc        1         -      r        "RQICUTEN"              "Q_I TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
-state    real  RQCNCUTEN       ikj      misc        1         -      r        "RQCNCUTEN"             "Q_CN TENDENCY DUE TO CUMULUS SCHEME"      "# kg-1 s-1"
-state    real  RQINCUTEN       ikj      misc        1         -      r        "RQINCUTEN"             "Q_IN TENDENCY DUE TO CUMULUS SCHEME"      "# kg-1 s-1"
+state    real  RUCUTEN         ikj      misc        1         -      hrdu        "RUCUTEN"               "X WIND TENDENCY DUE TO CUMULUS PARAMETERIZATION"  "m s-2"
+state    real  RVCUTEN         ikj      misc        1         -      hrdu        "RVCUTEN"               "Y WIND TENDENCY DUE TO CUMULUS PARAMETERIZATION"  "m s-2"
+state    real  RTHCUTEN        ikj      misc        1         -      hrdu        "RTHCUTEN"              "THETA TENDENCY DUE TO CUMULUS SCHEME"     "K s-1"
+state    real  RQVCUTEN        ikj      misc        1         -      hrdu        "RQVCUTEN"              "Q_V TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
+state    real  RQRCUTEN        ikj      misc        1         -      hrdu        "RQRCUTEN"              "Q_R TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
+state    real  RQCCUTEN        ikj      misc        1         -      hrdu        "RQCCUTEN"              "Q_C TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
+state    real  RQSCUTEN        ikj      misc        1         -      hrdu        "RQSCUTEN"              "Q_S TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
+state    real  RQICUTEN        ikj      misc        1         -      hrdu        "RQICUTEN"              "Q_I TENDENCY DUE TO CUMULUS SCHEME"       "kg kg-1 s-1"
+state    real  RQCNCUTEN       ikj      misc        1         -      hrdu        "RQCNCUTEN"             "Q_CN TENDENCY DUE TO CUMULUS SCHEME"      "# kg-1 s-1"
+state    real  RQINCUTEN       ikj      misc        1         -      hrdu        "RQINCUTEN"             "Q_IN TENDENCY DUE TO CUMULUS SCHEME"      "# kg-1 s-1"
 state    real  W0AVG           ikj      misc        1         -      r        "W0AVG"                 "AVERAGE VERTICAL VELOCITY FOR KF CUMULUS SCHEME"         "m s-1"
 
 state    real  RAINC            ij      misc        1         -      rhdu     "RAINC"                 "ACCUMULATED TOTAL CUMULUS PRECIPITATION"                 "mm"      
@@ -1348,8 +1363,8 @@ state    real  QC_BL             ikj      misc        1         -      r      "Q
 state integer  STEPAVE_COUNT     -        misc        1         -      r      "STEPAVE_COUNT"        "time steps contained in averages for convective transport" ""
 
 #
-state    real  RTHFTEN          ikj     misc        1         -      r        "RTHFTEN"               "TOTAL ADVECTIVE POTENTIAL TEMPERATURE TENDENCY"  "K s-1"
-state    real  RQVFTEN          ikj     misc        1         -      r        "RQVFTEN"               "TOTAL ADVECTIVE MOISTURE TENDENCY"     "kg kg-1 s-1"
+state    real  RTHFTEN          ikj     misc        1         -      hrdu        "RTHFTEN"               "TOTAL ADVECTIVE POTENTIAL TEMPERATURE TENDENCY"  "K s-1"
+state    real  RQVFTEN          ikj     misc        1         -      hrdu        "RQVFTEN"               "TOTAL ADVECTIVE MOISTURE TENDENCY"     "kg kg-1 s-1"
 
 state integer  STEPCU          -        misc        1         -      r        "STEPCU"                "NUMBER OF FUNDAMENTAL TIMESTEPS BETWEEN CONVECTION CALLS"  ""
                                                 
@@ -1497,13 +1512,13 @@ state    real  NOAHRES          ij      misc        1         -      h        "N
 state    real  CLDEFI           ij      misc        1         -      r        "CLDEFI"                "precipitation efficiency in BMJ SCHEME"    ""      
 state integer  STEPRA          -        misc        1         -      r        "STEPRA"                "NUMBER OF FUNDAMENTAL TIMESTEPS BETWEEN RADIATION CALLS"        ""
                                                 
-state    real  RUBLTEN         ikj      misc        1         -      r        "RUBLTEN"               "X WIND TENDENCY DUE TO PBL PARAMETERIZATION"  "m s-2"
-state    real  RVBLTEN         ikj      misc        1         -      r        "RVBLTEN"               "Y WIND TENDENCY DUE TO PBL PARAMETERIZATION"  "m s-2"
-state    real  RTHBLTEN        ikj      misc        1         -      r        "RTHBLTEN"              "THETA TENDENCY DUE TO PBL PARAMETERIZATION"   "K s-1"
-state    real  RQVBLTEN        ikj      misc        1         -      r        "RQVBLTEN"              "Q_V TENDENCY DUE TO PBL PARAMETERIZATION"     "kg kg-1 s-1"
-state    real  RQCBLTEN        ikj      misc        1         -      r        "RQCBLTEN"              "Q_C TENDENCY DUE TO PBL PARAMETERIZATION"     "kg kg-1 s-1"
-state    real  RQIBLTEN        ikj      misc        1         -      r        "RQIBLTEN"              "Q_I TENDENCY DUE TO PBL PARAMETERIZATION"     "kg kg-1 s-1"
-state    real  RQNIBLTEN       ikj      misc        1         -      r        "RQNIBLTEN"             "Q_NI TENDENCY DUE TO PBL PARAMETERIZATION"    "#  kg-1 s-1"
+state    real  RUBLTEN         ikj      misc        1         -      hrdu        "RUBLTEN"               "X WIND TENDENCY DUE TO PBL PARAMETERIZATION"  "m s-2"
+state    real  RVBLTEN         ikj      misc        1         -      hrdu        "RVBLTEN"               "Y WIND TENDENCY DUE TO PBL PARAMETERIZATION"  "m s-2"
+state    real  RTHBLTEN        ikj      misc        1         -      hrdu        "RTHBLTEN"              "THETA TENDENCY DUE TO PBL PARAMETERIZATION"   "K s-1"
+state    real  RQVBLTEN        ikj      misc        1         -      hrdu        "RQVBLTEN"              "Q_V TENDENCY DUE TO PBL PARAMETERIZATION"     "kg kg-1 s-1"
+state    real  RQCBLTEN        ikj      misc        1         -      hrdu        "RQCBLTEN"              "Q_C TENDENCY DUE TO PBL PARAMETERIZATION"     "kg kg-1 s-1"
+state    real  RQIBLTEN        ikj      misc        1         -      hrdu        "RQIBLTEN"              "Q_I TENDENCY DUE TO PBL PARAMETERIZATION"     "kg kg-1 s-1"
+state    real  RQNIBLTEN       ikj      misc        1         -      hrdu        "RQNIBLTEN"             "Q_NI TENDENCY DUE TO PBL PARAMETERIZATION"    "#  kg-1 s-1"
 
 # For Noah UA changes
 state    real   flx4            ij         -        1         -      -        "FLX4"         "sensible heat from canopy"              "W m{-2}"
@@ -1603,7 +1618,9 @@ state    real   rivercondxy ij     -       1      -     r     "rivercond"  "rive
 state    real   fdepthxy   ij      -       1      -     i012rd=(interp_mask_field:lu_index,iswater)u=(copy_fcnm)    "FDEPTH"     "e-folding depth for transmissivity "       "m"
 state    real   eqzwt      ij      -       1      -     i012rd=(interp_mask_field:lu_index,iswater)u=(copy_fcnm)    "EQZWT"      "equilibrium water table depth "       "m"
 state    real   rechclim   ij      -       1      -     i012rd=(interp_mask_field:lu_index,iswater)u=(copy_fcnm)    "RECHCLIM"   "equilibrium recharge rate "       "mm"
+state    real   rivermask  ij      -       1      -     i012rd=(interp_mask_field:lu_index,iswater)u=(copy_fcnm)    "RIVERMASK"  "fraction of grid that is river"       "fraction"
 state    real   riverbedxy ij      -       1      -     i012rd=(interp_mask_field:lu_index,iswater)u=(copy_fcnm)    "RIVERBED"   "river bed depth"       "m"
+state    real   nonriverxy ij      -       1      -     i012rd=(interp_mask_field:lu_index,iswater)u=(copy_fcnm)    "NONRIVER"   "non-river elevation"       "m"
 
 # Crop model only
 
@@ -2703,7 +2720,7 @@ package   bep_bemscheme  sf_urban_physics==3         -             state:a_u_bep
 package   slabscheme     sf_surface_physics==1       -             -
 package   lsmscheme      sf_surface_physics==2       -             state:flx4,fvb,fbur,fgsn,smcrel
 package   ruclsmscheme   sf_surface_physics==3       -             state:smfr3d,keepfr3dflag,soilt1,rhosnf,snowfallac,precipfr,acrunoff
-package   noahmpscheme   sf_surface_physics==4       -             state:isnowxy,tvxy,tgxy,canliqxy,canicexy,eahxy,tahxy,cmxy,chxy,fwetxy,sneqvoxy,alboldxy,qsnowxy,wslakexy,zwtxy,waxy,wtxy,tsnoxy,zsnsoxy,snicexy,snliqxy,lfmassxy,rtmassxy,stmassxy,woodxy,stblcpxy,fastcpxy,xsaixy,taussxy,t2mvxy,t2mbxy,q2mvxy,q2mbxy,tradxy,neexy,gppxy,nppxy,fvegxy,qinxy,runsfxy,runsbxy,ecanxy,edirxy,etranxy,fsaxy,firaxy,aparxy,psnxy,savxy,sagxy,rssunxy,rsshaxy,bgapxy,wgapxy,tgvxy,tgbxy,chvxy,chbxy,shgxy,shcxy,shbxy,evgxy,evbxy,ghvxy,ghbxy,irgxy,ircxy,irbxy,trxy,evcxy,chleafxy,chucxy,chv2xy,chb2xy,chstarxy,smoiseq,smcwtdxy,rechxy,deeprechxy,fdepthxy,areaxy,rivercondxy,riverbedxy,eqzwt,pexpxy,qrfxy,qrfsxy,qspringxy,qspringsxy,qslatxy,stepwtd,rechclim,gddxy,grainxy,croptype,planting,harvest,season_gdd,cropcat,pgsxy
+package   noahmpscheme   sf_surface_physics==4       -             state:isnowxy,tvxy,tgxy,canliqxy,canicexy,eahxy,tahxy,cmxy,chxy,fwetxy,sneqvoxy,alboldxy,qsnowxy,wslakexy,zwtxy,waxy,wtxy,tsnoxy,zsnsoxy,snicexy,snliqxy,lfmassxy,rtmassxy,stmassxy,woodxy,stblcpxy,fastcpxy,xsaixy,taussxy,t2mvxy,t2mbxy,q2mvxy,q2mbxy,tradxy,neexy,gppxy,nppxy,fvegxy,qinxy,runsfxy,runsbxy,ecanxy,edirxy,etranxy,fsaxy,firaxy,aparxy,psnxy,savxy,sagxy,rssunxy,rsshaxy,bgapxy,wgapxy,tgvxy,tgbxy,chvxy,chbxy,shgxy,shcxy,shbxy,evgxy,evbxy,ghvxy,ghbxy,irgxy,ircxy,irbxy,trxy,evcxy,chleafxy,chucxy,chv2xy,chb2xy,chstarxy,smoiseq,smcwtdxy,rechxy,deeprechxy,fdepthxy,areaxy,rivercondxy,riverbedxy,eqzwt,pexpxy,qrfxy,qrfsxy,qspringxy,qspringsxy,qslatxy,stepwtd,rechclim,rivermask,nonriverxy,gddxy,grainxy,croptype,planting,harvest,season_gdd,cropcat,pgsxy
 package   clmscheme      sf_surface_physics==5       -             state:numc,nump,sabv,sabg,lwup,lhsoi,lhveg,lhtran,snl,snowdp,wtc,wtp,h2osno,t_grnd,t_veg,h2ocan,h2ocan_col,t2m_max,t2m_min,t2clm,t_ref2m,h2osoi_liq_s1,h2osoi_liq_s2,h2osoi_liq_s3,h2osoi_liq_s4,h2osoi_liq_s5,h2osoi_liq1,h2osoi_liq2,h2osoi_liq3,h2osoi_liq4,h2osoi_liq5,h2osoi_liq6,h2osoi_liq7,h2osoi_liq8,h2osoi_liq9,h2osoi_liq10,h2osoi_ice_s1,h2osoi_ice_s2,h2osoi_ice_s3,h2osoi_ice_s4,h2osoi_ice_s5,h2osoi_ice1,h2osoi_ice2,h2osoi_ice3,h2osoi_ice4,h2osoi_ice5,h2osoi_ice6,h2osoi_ice7,h2osoi_ice8,h2osoi_ice9,h2osoi_ice10,t_soisno_s1,t_soisno_s2,t_soisno_s3,t_soisno_s4,t_soisno_s5,t_soisno1,t_soisno2,t_soisno3,t_soisno4,t_soisno5,t_soisno6,t_soisno7,t_soisno8,t_soisno9,t_soisno10,dzsnow1,dzsnow2,dzsnow3,dzsnow4,dzsnow5,snowrds1,snowrds2,snowrds3,snowrds4,snowrds5,t_lake1,t_lake2,t_lake3,t_lake4,t_lake5,t_lake6,t_lake7,t_lake8,t_lake9,t_lake10,h2osoi_vol1,h2osoi_vol2,h2osoi_vol3,h2osoi_vol4,h2osoi_vol5,h2osoi_vol6,h2osoi_vol7,h2osoi_vol8,h2osoi_vol9,h2osoi_vol10,albedosubgrid,lhsubgrid,hfxsubgrid,lwupsubgrid,q2subgrid,sabvsubgrid,sabgsubgrid,nrasubgrid,swupsubgrid
 package   pxlsmscheme    sf_surface_physics==7       -             state:t2_ndg_new,q2_ndg_new,t2_ndg_old,q2_ndg_old,vegf_px,imperv,canfra
 package   ssibscheme     sf_surface_physics==8       -             state:ssib_fm,ssib_fh,ssib_cm,ssibxdd,ssib_br,ssib_lhf,ssib_shf,ssib_ghf,ssib_egs,ssib_eci,ssib_ect,ssib_egi,ssib_egt,ssib_sdn,ssib_sup,ssib_ldn,ssib_lup,ssib_wat,ssib_shc,ssib_shg,ssib_lai,ssib_vcf,ssib_z00,ssib_veg,isnow,swe,snowden,snowdepth,tkair,dzo1,wo1,tssn1,tssno1,bwo1,bto1,cto1,fio1,flo1,bio1,blo1,ho1,dzo2,wo2,tssn2,tssno2,bwo2,bto2,cto2,fio2,flo2,bio2,blo2,ho2,dzo3,wo3,tssn3,tssno3,bwo3,bto3,cto3,fio3,flo3,bio3,blo3,ho3,dzo4,wo4,tssn4,tssno4,bwo4,bto4,cto4,fio4,flo4,bio4,blo4,ho4
@@ -3157,3 +3174,4 @@ xpose XPOSE_SPECTRAL_NUDGING dyn_em dif_analysis,dif_xxx,dif_yyy
 
 package   no_fft_used    fft_used==0                  -             -
 package   any_fft_used   fft_used==1                  -             state:t_xxx,u_xxx,ru_xxx,v_xxx,rv_xxx,w_xxx,ww_xxx,ph_xxx,dum_yyy,fourd_xxx
+
