@@ -19,3 +19,165 @@ qsub -I -l select=4:ncpus=36:mpiprocs=36 -l walltime=02:00:00 -q regular -A UCLA
 Then run:
 mpiexec_mpt ./real.exe >& log.real
 mpiexec_mpt ./wrf.exe >& log.wrf
+
+
+real.exe works
+
+wrf.exe crashes
+	SIGSEGV, segmentation fault occurred
+
+
+
+
+dyn_em/solve_em.F
+
+!<DESCRIPTION>
+!<pre>
+!(2) The non-timesplit physics begins with a call to "phy_prep"
+!    (which computes some diagnostic variables such as temperature,
+!    pressure, u and v at p points, etc).  This is followed by
+!    calls to the physics drivers:
+!
+!              radiation,
+!              surface,
+!              pbl,
+!              cumulus,
+!              fddagd,
+!              3D TKE and mixing.
+!<pre>
+!</DESCRIPTION>
+
+
+
+
+
+
+Trying to compile
+
+5 module_bl_ysu.f90(158): error #6780: A dummy argument with the INTENT(IN) attribute shall not      be defined nor become undefined.   [XKZQ]
+2736               ,xkzq=xkzq,xkzh=xkzh,xkzm=xkzm &
+2737 --------------------^
+2738 module_bl_ysu.f90(158): error #6780: A dummy argument with the INTENT(IN) attribute shall not      be defined nor become undefined.   [XKZH]
+2739               ,xkzq=xkzq,xkzh=xkzh,xkzm=xkzm &
+2740 ------------------------------^
+2741 module_bl_ysu.f90(158): error #6780: A dummy argument with the INTENT(IN) attribute shall not      be defined nor become undefined.   [XKZM]
+2742               ,xkzq=xkzq,xkzh=xkzh,xkzm=xkzm &
+2743 ----------------------------------------^
+2744 compilation aborted for module_bl_ysu.f90 (code 1)
+
+* try fixing by commenting out the xkzq=xkzq stuff in call ysu2d()
+
+
+
+
+
+ module_bl_ysu.f90(128): error #6631: A non-optional actual argument must be present when inv     oking a procedure with an explicit interface.   [XKZQ]
+2736       call ysu2d(J=j,ux=u3d(ims,kms,j),vx=v3d(ims,kms,j) &
+2737 -----------^
+2738 module_bl_ysu.f90(128): error #6631: A non-optional actual argument must be present when inv     oking a procedure with an explicit interface.   [XKZH]
+2739       call ysu2d(J=j,ux=u3d(ims,kms,j),vx=v3d(ims,kms,j) &
+2740 -----------^
+2741 module_bl_ysu.f90(128): error #6631: A non-optional actual argument must be present when inv     oking a procedure with an explicit interface.   [XKZM]
+2742       call ysu2d(J=j,ux=u3d(ims,kms,j),vx=v3d(ims,kms,j) &
+2743 -----------^
+2744 compilation aborted for module_bl_ysu.f90 (code 1)
+
+ysu2d() had xkzq, etc. in definition but not in function call
+
+
+
+
+
+
+   8 \* 4` -i4  module_bl_shinhong.f90
+2735 module_bl_ysu.f90(281): error #6420: This array name is invalid in this context.   [XKZQ]
+2736    real, dimension(its:ite, kts:kte), intent(inout) :: xkzq,xkzh,xkzm
+2737 -------------------------------------------------------^
+2738 module_bl_ysu.f90(281): error #6420: This array name is invalid in this context.   [XKZH]
+2739    real, dimension(its:ite, kts:kte), intent(inout) :: xkzq,xkzh,xkzm
+2740 ------------------------------------------------------------^
+2741 module_bl_ysu.f90(281): error #6420: This array name is invalid in this context.   [XKZM]
+2742    real, dimension(its:ite, kts:kte), intent(inout) :: xkzq,xkzh,xkzm
+2743 -----------------------------------------------------------------^
+2744 compilation aborted for module_bl_ysu.f90 (code 1)
+
+* tried making ysu2d xkzq's intent(out)
+
+
+
+
+
+
+
+2734 module_bl_ysu.f90(158): error #6780: A dummy argument with the INTENT(IN) attribute shall no     t be defined nor become undefined.   [XKZQ]
+2735               ,xkzq=xkzq,xkzh=xkzh,xkzm=xkzm &
+2736 --------------------^
+2737 module_bl_ysu.f90(158): error #6780: A dummy argument with the INTENT(IN) attribute shall no     t be defined nor become undefined.   [XKZH]
+2738               ,xkzq=xkzq,xkzh=xkzh,xkzm=xkzm &
+2739 ------------------------------^
+2740 module_bl_ysu.f90(158): error #6780: A dummy argument with the INTENT(IN) attribute shall no     t be defined nor become undefined.   [XKZM]
+2741               ,xkzq=xkzq,xkzh=xkzh,xkzm=xkzm &
+2742 ----------------------------------------^
+2743 compilation aborted for module_bl_ysu.f90 (code 1)
+
+
+getting rid of it in the call to ysu2d...
+
+
+export J="-j 6"
+
+
+
+
+
+
+
+
+2744 rm -f module_bl_myjpbl.o
+2745 sed -e "s/grid%mu/gridmu/g" -e "s/grid%Mu/gridMu/g" -e "s/^\!.*'.*//" -e "s/^ *\!.*'.*//" module     _bl_myjpbl.F > module_bl_myjpbl.G
+2746 module_bl_ysu.f90(281): error #6420: This array name is invalid in this context.   [XKZQ]
+2747    real, dimension(its:ite, kts:kte), intent(out) :: xkzq,xkzh,xkzm
+2748 -----------------------------------------------------^
+2749 module_bl_ysu.f90(281): error #6420: This array name is invalid in this context.   [XKZH]
+2750    real, dimension(its:ite, kts:kte), intent(out) :: xkzq,xkzh,xkzm
+2751 ----------------------------------------------------------^
+2752 module_bl_ysu.f90(281): error #6420: This array name is invalid in this context.   [XKZM]
+2753    real, dimension(its:ite, kts:kte), intent(out) :: xkzq,xkzh,xkzm
+2754 ---------------------------------------------------------------^
+2755 compilation aborted for module_bl_ysu.f90 (code 1)
+
+
+
+
+
+
+ module_pbl_driver.f90(305): error #6420: This array name is invalid in this context.   [XKZQ     ]
+5492          INTENT(IN) :: xkzq, xkzh, xkzm
+5493 -----------------------^
+5494 module_pbl_driver.f90(305): error #6420: This array name is invalid in this context.   [XKZH     ]
+5495          INTENT(IN) :: xkzq, xkzh, xkzm
+5496 -----------------------------^
+5497 module_pbl_driver.f90(305): error #6420: This array name is invalid in this context.   [XKZM     ]
+5498          INTENT(IN) :: xkzq, xkzh, xkzm
+5499 -----------------------------------^
+5500 compilation aborted for module_pbl_driver.f90 (code 1)
+
+
+
+
+
+
+
+
+2740 module_bl_ysu.f90(158): error #6628: Non-keyword arguments are invalid after keyword argumen     ts have been encountered.   [XKZQ]
+2741               ,xkzq &
+2742 ---------------^
+2743 module_bl_ysu.f90(159): error #6628: Non-keyword arguments are invalid after keyword argumen     ts have been encountered.   [XKZH]
+2744               ,xkzh &
+2745 ---------------^
+2746 module_bl_ysu.f90(160): error #6628: Non-keyword arguments are invalid after keyword argumen     ts have been encountered.   [XKZM]
+2747               ,xkzm &
+2748 ---------------^
+2749 compilation aborted for module_bl_ysu.f90 (code 1)
+
+* added xkzq=xkzq3d(ims,kms,j) to call ysu2d()
