@@ -53,17 +53,17 @@
 
 ########## added by baird ##########
 
+state    real  xkzq3d             ikj       misc        1         -     h     "xkzq3d"              "vertical diffusivity coefficient for q"      "units unclear"
+state    real  xkzm3d             ikj       misc        1         -     h     "xkzm3d"              "vertical diffusivity coefficient for m"      "units unclear"
+state    real  xkzh3d             ikj       misc        1         -     h     "xkzh3d"              "vertical diffusivity coefficient for h"      "units unclear"
+
 state    real  xkzq             ik       misc        1         -     h     "xkzq"              "vertical diffusivity coefficient for q"      "units unclear"
-
 state    real  xkzm             ik       misc        1         -     h     "xkzm"              "vertical diffusivity coefficient for m"      "units unclear"
-
 state    real  xkzh             ik       misc        1         -     h     "xkzh"              "vertical diffusivity coefficient for h"      "units unclear"
 
-state    integer kpbl2d         ik       misc        1         -     h     "kpbl2d"              "vertical coordinate index of PBL location"   "unitless"
+#state    integer kpbl2d         ik       misc        1         -     h     "kpbl2d"              "vertical coordinate index of PBL location"   "unitless"
 
 ####################################
-
-
 
 state    real  XLAT             ij      misc        1         -     i0123rh0156{22}{23}du=(copy_fcnm)      "XLAT"                "LATITUDE, SOUTH IS NEGATIVE"                                          "degree_north"
 state    real  XLONG            ij      misc        1         -     i0123rh0156{22}{23}d=(interp_fcn_blint_ll:xlat,input_from_file)u=(copy_fcnm)      "XLONG"               "LONGITUDE, WEST IS NEGATIVE"                                          "degree_east"
@@ -3174,4 +3174,5 @@ xpose XPOSE_SPECTRAL_NUDGING dyn_em dif_analysis,dif_xxx,dif_yyy
 
 package   no_fft_used    fft_used==0                  -             -
 package   any_fft_used   fft_used==1                  -             state:t_xxx,u_xxx,ru_xxx,v_xxx,rv_xxx,w_xxx,ww_xxx,ph_xxx,dum_yyy,fourd_xxx
+
 

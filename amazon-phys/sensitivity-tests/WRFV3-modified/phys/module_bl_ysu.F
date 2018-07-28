@@ -31,10 +31,10 @@ contains
                   ims,ime, jms,jme, kms,kme,                                   &
                   its,ite, jts,jte, kts,kte,                                   &
 ! added by baird
-                  xkzq3d,xkzh3d,xkzm3d,                                     &
-                  xkzq,xkzh,xkzm,                                              &
+                  xkzq3d,xkzh3d,xkzm3d                                     &
+                  ,xkzq,xkzh,xkzm                                              &
                 !optional
-                  regime                                           )
+                  ,regime                                           )
 !-------------------------------------------------------------------------------
    implicit none
 !-------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ contains
    real, dimension(ims:ime, kms:kme, jms:jme)                                , &
              intent(inout)     :: xkzq3d,xkzh3d,xkzm3d
    real, dimension(ims:ime, kms:kme)                                         , &
-             intent(inout)      :: xkzq,xkzh,xkzm
+             intent(in)      :: xkzq,xkzh,xkzm
 !!!!!!!!!! end added by baird
 !
 !optional
@@ -238,6 +238,7 @@ contains
         enddo
       enddo
 !
+! notes by baird:  ysu2d is operating over j, which is latitude (I think)
       call ysu2d(J=j,ux=u3d(ims,kms,j),vx=v3d(ims,kms,j)                       &
               ,tx=t3d(ims,kms,j)                                               &
               ,qx=qv2d(its,kts)                                                &
@@ -269,11 +270,14 @@ contains
               ,ims=ims,ime=ime, jms=jms,jme=jme, kms=kms,kme=kme               &
               ,its=its,ite=ite, jts=jts,jte=jte, kts=kts,kte=kte               &
 ! added by baird
-! needed because you get "a dummy arguemtn with the INTENT(IN) attribute
+! needed because you get "a dummy argument with the INTENT(IN) attribute
 ! shall not be defined nor become undefined" error
-              ,xkzq=xkzq  &!3d(ims,kms,j)                                          &
-              ,xkzh=xkzh  &!3d(ims,kms,j)                                          &
-              ,xkzm=xkzm  &!3d(ims,kms,j)                                          &
+!
+! it's now intent(out) in ysu2d but I am defining it here to copy how kpbl1d
+! is handled (defined as intent out in ysu2d but still defined in the CALL)
+              ,xkzq=xkzq3d(ims,kms,j)                                    &
+              ,xkzh=xkzh3d(ims,kms,j)                                    &
+              ,xkzm=xkzm3d(ims,kms,j)                                    &
 !
                )
      do k = kts,kte
@@ -489,8 +493,8 @@ contains
                                                                         prpbl, &
                                                               wspd1,thermalli
 !
-! added as intent inout by baird
-   real, dimension(its:ite, kts:kte), intent(inout) :: xkzq,xkzh,xkzm
+! added as intent out by baird
+   real, dimension(its:ite, kts:kte), intent(out) :: xkzq,xkzh,xkzm
 !
 ! made more compact by baird (took out xkzq, xkzm, xkzh and put above)
    real, dimension(its:ite, kts:kte) :: f1,f2,r1,r2, &
@@ -640,9 +644,9 @@ contains
 !
 !
 ! added by baird: initialize the xkzq out stuff
-   xkzq(its:ite,:) = 0.
-   xkzh(its:ite,:) = 0.
-   xkzm(its:ite,:) = 0.
+!   xkzq(its:ite,:) = 0.
+!   xkzh(its:ite,:) = 0.
+!   xkzm(its:ite,:) = 0.
 !
 !
 !-----initialize vertical tendencies and
@@ -1638,8 +1642,8 @@ contains
                       ims, ime, jms, jme, kms, kme,                            &
                       its, ite, jts, jte, kts, kte,                            &
 ! added by baird
-                      xkzq3d,xkzh3d,xkzm3d,                 &
-                      xkzq,xkzh,xkzm                        &
+                      xkzq3d,xkzh3d,xkzm3d                 &
+!                      xkzq,xkzh,xkzm                        &
 ! end added by baird
                                                             )
 !-------------------------------------------------------------------------------
@@ -1661,8 +1665,8 @@ contains
 ! added by baird
    real , dimension( ims:ime , kms:kme , jms:jme ), intent(out) ::             &
                                                        xkzq3d,xkzh3d,xkzm3d
-   real , dimension( ims:ime , kms:kme ), intent(out) ::                       &
-                                                       xkzq,xkzh,xkzm
+!   real , dimension( ims:ime , kms:kme ), intent(out) ::                       &
+!                                                       xkzq,xkzh,xkzm
 ! end added by baird
    integer :: i, j, k, itf, jtf, ktf
 !
@@ -1695,13 +1699,13 @@ contains
       enddo
     enddo
 
-    do k = kts,ktf
-      do i = its,itf
-        xkzq(i,k) = 0.
-        xkzh(i,k) = 0.
-        xkzm(i,k) = 0.
-      enddo
-    enddo
+!    do k = kts,ktf
+!      do i = its,itf
+!        xkzq(i,k) = 0.
+!        xkzh(i,k) = 0.
+!        xkzm(i,k) = 0.
+!      enddo
+!    enddo
 ! end added by baird
 !
    if (p_qi .ge. p_first_scalar .and. .not.restart) then

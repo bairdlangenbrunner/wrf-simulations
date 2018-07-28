@@ -367,9 +367,6 @@ CONTAINS
 !-- kts           start index for k in tile
 !-- kte           end index for k in tile
 !
-!-- xkzq3d      3d diffusivity coefficient (possibly for moisture) from YSU PBL scheme (added by baird)
-!-- xkzh3d      save as above (but for moist static energy?)
-!-- xkzm3d      same as above (but for momentum?)
 !******************************************************************
 !------------------------------------------------------------------ 
 !
@@ -676,8 +673,9 @@ CONTAINS
    REAL, DIMENSION( ims:ime, kms:kme, jms:jme ),                  &
          INTENT(INOUT) :: xkzq3d,xkzh3d,xkzm3d
    REAL, DIMENSION( ims:ime, kms:kme ),                           &
-         INTENT(INOUT) :: xkzq, xkzh, xkzm
+         INTENT(IN) :: xkzq, xkzh, xkzm
 !!!!!!!!!! end added by baird
+! 
 
    REAL,       DIMENSION( ims:ime, jms:jme )                    , &
                OPTIONAL                                         , &
@@ -1199,6 +1197,9 @@ CONTAINS
 !
 ! FASDAS
 !
+! added by baird to stop code
+!              exit
+
               IF( fasdas == 1 ) THEN
                   DO j=j_start(ij),j_end(ij)
                   DO i=i_start(ij),i_end(ij)

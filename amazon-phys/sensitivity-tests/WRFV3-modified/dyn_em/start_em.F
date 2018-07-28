@@ -1081,7 +1081,7 @@ endif
                       grid%rqvblten,grid%rqcblten,grid%rqiblten,             &
 ! added by baird
                       grid%xkzq3d,grid%xkzh3d,grid%xkzm3d,                   &
-                      grid%xkzq,grid%xkzh,grid%xkzm,                         &
+!                      grid%xkzq,grid%xkzh,grid%xkzm,                         &
 ! end added by baird
                       grid%rthraten,grid%rthratenlw,grid%rthratensw,         &
                       !BSINGH - For WRFCuP scheme(11/12/2013)

@@ -36,7 +36,7 @@ CONTAINS
                          RQVBLTEN,RQCBLTEN,RQIBLTEN,             &
 ! added by baird
                          XKZQ3D,XKZH3D,XKZM3D,                   &
-                         XKZQ,XKZH,XKZM,                         &
+!                         XKZQ,XKZH,XKZM,                         &
 ! end added by baird
                          RTHRATEN,RTHRATENLW,RTHRATENSW,         &
 #if ( EM_CORE == 1 )
@@ -401,8 +401,8 @@ CONTAINS
 ! added by baird
   REAL,     DIMENSION( ims:ime , kms:kme , jms:jme ) , INTENT(OUT) ::    &
              XKZQ3D,XKZH3D,XKZM3D
-  REAL,     DIMENSION( ims:ime , kms:kme ) , INTENT(OUT) :: &
-             XKZQ,XKZH,XKZM
+!  REAL,     DIMENSION( ims:ime , kms:kme ) , INTENT(OUT) :: &
+!             XKZQ,XKZH,XKZM
 ! end added by baird
 
   REAL,     DIMENSION( ims:ime , kms:kme , jms:jme ) , INTENT(INOUT), OPTIONAL :: QKE
@@ -1120,7 +1120,7 @@ integer myproc
                 RQVBLTEN,RQCBLTEN,RQIBLTEN,TSK,TMN,             &
 ! added by baird
                 XKZQ3D,XKZH3D,XKZM3D,                           &
-                XKZQ,XKZH,XKZM,                                 &
+!                XKZQ,XKZH,XKZM,                                 &
 ! end added by baird
                 config_flags,restart,UST,LOWLYR,TSLB,ZS,DZS,    &
                 num_soil_layers,TKE_PBL,mfshconv,               &
@@ -2040,7 +2040,7 @@ integer myproc
                 RQVBLTEN,RQCBLTEN,RQIBLTEN,TSK,TMN,             &
 ! added by baird
                 XKZQ3D,XKZH3D,XKZM3D,                           &
-                XKZQ,XKZH,XKZM,                                 &
+!                XKZQ,XKZH,XKZM,                                 &
 ! end added by baird
                 config_flags,restart,UST,LOWLYR,TSLB,ZS,DZS,    &
                 num_soil_layers,TKE_PBL,mfshconv,               &
@@ -2300,8 +2300,8 @@ integer myproc
 ! added by baird
    REAL,     DIMENSION( ims:ime , kms:kme , jms:jme ) , INTENT(OUT) ::  &
                                                XKZQ3D,XKZH3D,XKZM3D
-   REAL,     DIMENSION( ims:ime , kms:kme ) , INTENT(OUT) :: &
-                                               XKZQ,XKZH,XKZM
+!   REAL,     DIMENSION( ims:ime , kms:kme ) , INTENT(OUT) :: &
+!                                               XKZQ,XKZH,XKZM
 ! end added by baird
    REAL,     DIMENSION( ims:ime , kms:kme , jms:jme ) , INTENT(INOUT), OPTIONAL :: QKE
 
@@ -3084,8 +3084,8 @@ CALL lsm_mosaic_init(IVGTYP,config_flags%ISWATER,config_flags%ISURBAN,config_fla
                         ims, ime, jms, jme, kms, kme,         &
                         its, ite, jts, jte, kts, kte,         &
 ! added by baird
-                        XKZQ3D,XKZH3D,XKZM3D,                 &
-                        XKZQ,XKZH,XKZM                        &
+                        XKZQ3D,XKZH3D,XKZM3D                 &
+!                        XKZQ,XKZH,XKZM                        &
 ! end added by baird
                                                               )
       CASE (SHINHONGSCHEME)

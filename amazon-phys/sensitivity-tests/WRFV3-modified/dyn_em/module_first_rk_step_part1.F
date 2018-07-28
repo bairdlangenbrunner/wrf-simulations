@@ -871,8 +871,13 @@ BENCH_START(pbl_driver_tim)
      &        ,ysu_topdown_pblmix=config_flags%ysu_topdown_pblmix              &
      &        ,shinhong_tke_diag=config_flags%shinhong_tke_diag               &
 ! added by baird
-     &        ,XKZQ3D=grid%xkzq3d, XKZH3D=grid%xkzh3d, XKZM3D=grid%xkzm3d &
-     &        ,XKZQ=grid%xkzq, XKZH=grid%xkzh ,XKZM=grid%xkzm    &
+! the 3d vars work fine, but the 2d fields (xkzq, etc.) make the compile fail
+! with an error:  "This is not a field name that is defined in the encompassing structure."
+! With help from Hossein, this may be an issue with the original definition of the "grid"
+! structure, so I'm trying to change the size of this now to allow for extra variables to
+! be defined...
+     &        ,XKZQ3D=grid%xkzq3d, XKZH3D=grid%xkzh3d, XKZM3D=grid%xkzm3d   &
+     &        ,XKZQ=grid%xkzq, XKZH=grid%xkzh, XKZM=grid%xkzm    &
 ! end added by baird
 ! paj: topo_wind
      &        ,CTOPO=grid%ctopo,CTOPO2=grid%ctopo2                                   &
