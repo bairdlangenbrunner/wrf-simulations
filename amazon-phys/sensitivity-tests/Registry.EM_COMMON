@@ -53,15 +53,22 @@
 
 ########## added by baird ##########
 
-state    real  xkzq3d             ikj       misc        1         -     h     "xkzq3d"              "vertical diffusivity coefficient for q"      "units unclear"
-state    real  xkzm3d             ikj       misc        1         -     h     "xkzm3d"              "vertical diffusivity coefficient for m"      "units unclear"
-state    real  xkzh3d             ikj       misc        1         -     h     "xkzh3d"              "vertical diffusivity coefficient for h"      "units unclear"
+state    real  xkzq3d             ikj       misc        1         -     h     "xkzq3d"       "vertical diffusivity coefficient for q"      "m2 s-1"
+state    real  xkzm3d             ikj       misc        1         -     h     "xkzm3d"       "vertical diffusivity coefficient for m"      "m2 s-1"
+state    real  xkzh3d             ikj       misc        1         -     h     "xkzh3d"       "vertical diffusivity coefficient for h"      "m2 s-1"
 
-state    real  xkzq             ik       misc        1         -     h     "xkzq"              "vertical diffusivity coefficient for q"      "units unclear"
-state    real  xkzm             ik       misc        1         -     h     "xkzm"              "vertical diffusivity coefficient for m"      "units unclear"
-state    real  xkzh             ik       misc        1         -     h     "xkzh"              "vertical diffusivity coefficient for h"      "units unclear"
+state    real hfxpbl2d         ij       misc        1         -     h     "hfxpbl2d"      "flux at inversion layer"   "units"
+state    real qfxpbl2d         ij       misc        1         -     h     "qfxpbl2d"      "flux at inversion layer"   "units"
+state    real ufxpbl2d         ij       misc        1         -     h     "ufxpbl2d"      "flux at inversion layer"   "units"
+state    real vfxpbl2d         ij       misc        1         -     h     "vfxpbl2d"      "flux at inversion layer"   "units"
+state    real bfxpbl2d         ij       misc        1         -     h     "bfxpbl2d"      "flux at inversion layer"   "units"
+state    real we2d             ij       misc        1         -     h     "we2d"          "entrainment rate at inversion layer"   "units"
 
-#state    integer kpbl2d         ik       misc        1         -     h     "kpbl2d"              "vertical coordinate index of PBL location"   "unitless"
+#state    real  xkzq             ik       dyn_em        1         -     h     "xkzq"              "vertical diffusivity coefficient for q"      "units unclear"
+#state    real  xkzm             ik       misc        1         -     h     "xkzm"              "vertical diffusivity coefficient for m"      "units unclear"
+#state    real  xkzh             ik       misc        1         -     h     "xkzh"              "vertical diffusivity coefficient for h"      "units unclear"
+
+state    integer kpbl2d         ij       misc        1         -     h     "kpbl2d"              "vertical coordinate index of PBL location"   "unitless"
 
 ####################################
 
