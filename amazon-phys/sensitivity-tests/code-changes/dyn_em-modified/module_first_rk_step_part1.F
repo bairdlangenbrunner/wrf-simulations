@@ -871,13 +871,15 @@ BENCH_START(pbl_driver_tim)
      &        ,ysu_topdown_pblmix=config_flags%ysu_topdown_pblmix              &
      &        ,shinhong_tke_diag=config_flags%shinhong_tke_diag               &
 ! added by baird
-     &        ,XKZQ3D=grid%xkzq3d, XKZH3D=grid%xkzh3d, XKZM3D=grid%xkzm3d   &
+     &        ,XKZQ3D=grid%xkzq3d, XKZH3D=grid%xkzh3d, XKZM3D=grid%xkzm3d, RI3D=grid%ri3d   &
      &        ,HFXPBL2D=grid%hfxpbl2d &
      &        ,QFXPBL2D=grid%qfxpbl2d &
      &        ,UFXPBL2D=grid%ufxpbl2d &
      &        ,VFXPBL2D=grid%vfxpbl2d &
      &        ,BFXPBL2D=grid%bfxpbl2d &
      &        ,WE2D=grid%we2d &
+     &        ,HGAMT2D=grid%hgamt2d &
+     &        ,HGAMQ2D=grid%hgamq2d &
 !     &        ,XKZQ=grid%xkzq, XKZH=grid%xkzh, XKZM=grid%xkzm    &
 ! end added by baird
 ! paj: topo_wind

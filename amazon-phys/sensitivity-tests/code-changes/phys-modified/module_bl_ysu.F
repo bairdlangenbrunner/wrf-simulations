@@ -31,8 +31,8 @@ contains
                   ims,ime, jms,jme, kms,kme,                                   &
                   its,ite, jts,jte, kts,kte,                                   &
 ! added by baird
-                  xkzq3d,xkzh3d,xkzm3d,                                        &
-                  hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d,           &
+                  xkzq3d,xkzh3d,xkzm3d,ri3d,                                        &
+                  hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d,hgamt2d,hgamq2d,           &
 !                  ,xkzq,xkzh,xkzm                                              &
                 !optional
                   regime                                           )
@@ -183,11 +183,11 @@ contains
 
 !!!!!!!!!! added by baird
    real, dimension(ims:ime, kms:kme, jms:jme)                                , &
-             intent(inout)     :: xkzq3d,xkzh3d,xkzm3d
+             intent(inout)     :: xkzq3d,xkzh3d,xkzm3d,ri3d
    real, dimension(ims:ime, jms:jme)                                         , &
              intent(inout) :: hfxpbl2d,qfxpbl2d, &
                               ufxpbl2d,vfxpbl2d, &
-                              bfxpbl2d,we2d
+                              bfxpbl2d,we2d,hgamt2d,hgamq2d
 
 !   real, dimension(ims:ime, kms:kme)                                         , &
 !             intent(in)      :: xkzq,xkzh,xkzm
@@ -281,12 +281,15 @@ contains
               ,xkzq3d=xkzq3d &
               ,xkzh3d=xkzh3d &
               ,xkzm3d=xkzm3d &
+              ,ri3d=ri3d &
               ,hfxpbl2d=hfxpbl2d &
               ,qfxpbl2d=qfxpbl2d &
               ,ufxpbl2d=ufxpbl2d &
               ,vfxpbl2d=vfxpbl2d &
               ,bfxpbl2d=bfxpbl2d &
               ,we2d=we2d &
+              ,hgamt2d=hgamt2d &
+              ,hgamq2d=hgamq2d &
 ! end added by baird
                )
      do k = kts,kte
@@ -333,8 +336,8 @@ contains
                   ims,ime, jms,jme, kms,kme,                                   &
                   its,ite, jts,jte, kts,kte,                                   &
 ! added by baird
-                  xkzq3d,xkzh3d,xkzm3d,                                        &
-                  hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d,           &
+                  xkzq3d,xkzh3d,xkzm3d,ri3d,                                        &
+                  hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d,hgamt2d,hgamq2d,           &
 ! end added by baird
                 !optional
                   regime )
@@ -506,9 +509,9 @@ contains
 !
 ! added as intent out by baird
 !   real, dimension(ims:ime, kms:kme), intent(out) :: xkzq,xkzh,xkzm
-    real, dimension(ims:ime, kms:kme, jms:jme), intent(inout) :: xkzq3d,xkzh3d,xkzm3d
+    real, dimension(ims:ime, kms:kme, jms:jme), intent(inout) :: xkzq3d,xkzh3d,xkzm3d,ri3d
     real, dimension(ims:ime, jms:jme), intent(inout) ::  &
-                            hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d 
+                            hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d,hgamt2d,hgamq2d 
 !
 ! made more compact by baird (took out xkzq, xkzm, xkzh and put above)
 !   real, dimension(its:ite, kts:kte) :: f1,f2,r1,r2, &
@@ -1111,6 +1114,9 @@ contains
               /(dza(i,k+1)*dza(i,k+1))+1.e-9
          govrthv = g/(0.5*(thvx(i,k+1)+thvx(i,k)))
          ri = govrthv*(thvx(i,k+1)-thvx(i,k))/(ss*dza(i,k+1))
+! added by baird
+         ri3d(i,k,j) = ri
+! end added by baird
          if(imvdif.eq.1.and.ndiff.ge.3)then
            if((qx(i,ktrace2+k)+qx(i,ktrace3+k)).gt.0.01e-3.and.(qx(i           &
              ,ktrace2+k+1)+qx(i,ktrace3+k+1)).gt.0.01e-3)then
@@ -1120,6 +1126,9 @@ contains
              alph  = xlv*qmean/rd/tmean
              chi   = xlv*xlv*qmean/cp/rv/tmean/tmean
              ri    = (1.+alph)*(ri-g*g/ss/tmean/cp*((chi-alph)/(1.+chi)))
+! added by baird
+             ri3d(i,k,j) = ri
+! end added by baird
            endif
          endif
          zk = karman*zq(i,k+1)
@@ -1130,6 +1139,7 @@ contains
          if(ri.lt.0.)then
 ! unstable regime
            ri = max(ri, rimin)
+           ri3d(i,k,j) = ri
            sri = sqrt(-ri)
            xkzm(i,k) = dk*(1+8.*(-ri)/(1+1.746*sri))
            xkzh(i,k) = dk*(1+8.*(-ri)/(1+1.286*sri))
@@ -1502,6 +1512,8 @@ contains
        vfxpbl2d(i,j) = vfxpbl(i) 
        bfxpbl2d(i,j) = bfxpbl(i)
        we2d(i,j) = we(i)
+       hgamt2d(i,j) = hgamt(i)
+       hgamq2d(i,j) = hgamq(i)
      enddo
 
 
@@ -1676,8 +1688,8 @@ contains
                       ims, ime, jms, jme, kms, kme,                            &
                       its, ite, jts, jte, kts, kte,                            &
 ! added by baird
-                      xkzq3d,xkzh3d,xkzm3d,                 &
-                      hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d &
+                      xkzq3d,xkzh3d,xkzm3d,ri3d,                 &
+                      hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d,hgamt2d,hgamq2d &
 !                      xkzq,xkzh,xkzm                        &
 ! end added by baird
                                                             )
@@ -1699,9 +1711,9 @@ contains
                                                                      rqiblten
 ! added by baird
    real , dimension( ims:ime , kms:kme , jms:jme ), intent(out) ::             &
-                                                       xkzq3d,xkzh3d,xkzm3d
+                                                       xkzq3d,xkzh3d,xkzm3d,ri3d
    real , dimension( ims:ime , jms:jme ), intent(out) :: &
-                           hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d
+                           hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d,hgamt2d,hgamq2d
 !   real , dimension( ims:ime , kms:kme ), intent(out) ::                       &
 !                                                       xkzq,xkzh,xkzm
 ! end added by baird
@@ -1732,6 +1744,7 @@ contains
            xkzq3d(i,k,j) = 0.
            xkzh3d(i,k,j) = 0.
            xkzm3d(i,k,j) = 0.
+           ri3d(i,k,j) = 999.
         enddo
       enddo
     enddo

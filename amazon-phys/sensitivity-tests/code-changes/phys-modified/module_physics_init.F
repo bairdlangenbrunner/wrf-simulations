@@ -35,8 +35,9 @@ CONTAINS
                          RUBLTEN,RVBLTEN,RTHBLTEN,               &
                          RQVBLTEN,RQCBLTEN,RQIBLTEN,             &
 ! added by baird
-                         XKZQ3D,XKZH3D,XKZM3D,                   &
+                         XKZQ3D,XKZH3D,XKZM3D,RI3D,                   &
                          HFXPBL2D,QFXPBL2D,UFXPBL2D,VFXPBL2D,BFXPBL2D,WE2D, &
+                         HGAMT2D,HGAMQ2D,                        &
 !                         XKZQ,XKZH,XKZM,                         &
 ! end added by baird
                          RTHRATEN,RTHRATENLW,RTHRATENSW,         &
@@ -401,9 +402,9 @@ CONTAINS
              RUBLTEN,RVBLTEN,RTHBLTEN,RQVBLTEN,RQCBLTEN,RQIBLTEN,EXCH_H,TKE_PBL
 ! added by baird
   REAL,     DIMENSION( ims:ime , kms:kme , jms:jme ) , INTENT(OUT) ::    &
-             XKZQ3D,XKZH3D,XKZM3D
+             XKZQ3D,XKZH3D,XKZM3D,RI3D
   REAL,     DIMENSION( ims:ime , jms:jme ) , INTENT(OUT) :: &
-             HFXPBL2D,QFXPBL2D,UFXPBL2D,VFXPBL2D,BFXPBL2D,WE2D
+             HFXPBL2D,QFXPBL2D,UFXPBL2D,VFXPBL2D,BFXPBL2D,WE2D,HGAMT2D,HGAMQ2D
 !  REAL,     DIMENSION( ims:ime , kms:kme ) , INTENT(OUT) :: &
 !             XKZQ,XKZH,XKZM
 ! end added by baird
@@ -1122,8 +1123,9 @@ integer myproc
    CALL bl_init(STEPBL,BLDT,DT,RUBLTEN,RVBLTEN,RTHBLTEN,        &
                 RQVBLTEN,RQCBLTEN,RQIBLTEN,TSK,TMN,             &
 ! added by baird
-                XKZQ3D,XKZH3D,XKZM3D,                           &
+                XKZQ3D,XKZH3D,XKZM3D,RI3D,                           &
                 HFXPBL2D,QFXPBL2D,UFXPBL2D,VFXPBL2D,BFXPBL2D,WE2D, &
+                HGAMT2D,HGAMQ2D,                                &
 !                XKZQ,XKZH,XKZM,                                 &
 ! end added by baird
                 config_flags,restart,UST,LOWLYR,TSLB,ZS,DZS,    &
@@ -2043,8 +2045,9 @@ integer myproc
    SUBROUTINE bl_init(STEPBL,BLDT,DT,RUBLTEN,RVBLTEN,RTHBLTEN,  &
                 RQVBLTEN,RQCBLTEN,RQIBLTEN,TSK,TMN,             &
 ! added by baird
-                XKZQ3D,XKZH3D,XKZM3D,                           &
+                XKZQ3D,XKZH3D,XKZM3D,RI3D,                           &
                 HFXPBL2D,QFXPBL2D,UFXPBL2D,VFXPBL2D,BFXPBL2D,WE2D, &
+                HGAMT2D,HGAMQ2D,                                &
 !                XKZQ,XKZH,XKZM,                                 &
 ! end added by baird
                 config_flags,restart,UST,LOWLYR,TSLB,ZS,DZS,    &
@@ -2304,9 +2307,9 @@ integer myproc
 
 ! added by baird
    REAL,     DIMENSION( ims:ime , kms:kme , jms:jme ) , INTENT(OUT) ::  &
-                                               XKZQ3D,XKZH3D,XKZM3D
+                                               XKZQ3D,XKZH3D,XKZM3D,RI3D
    REAL,     DIMENSION( ims:ime , jms:jme ) , INTENT(OUT) :: &
-                  HFXPBL2D,QFXPBL2D,UFXPBL2D,VFXPBL2D,BFXPBL2D,WE2D
+                  HFXPBL2D,QFXPBL2D,UFXPBL2D,VFXPBL2D,BFXPBL2D,WE2D,HGAMT2D,HGAMQ2D
 !   REAL,     DIMENSION( ims:ime , kms:kme ) , INTENT(OUT) :: &
 !                                               XKZQ,XKZH,XKZM
 ! end added by baird
@@ -3091,8 +3094,9 @@ CALL lsm_mosaic_init(IVGTYP,config_flags%ISWATER,config_flags%ISURBAN,config_fla
                         ims, ime, jms, jme, kms, kme,         &
                         its, ite, jts, jte, kts, kte,         &
 ! added by baird
-                        XKZQ3D,XKZH3D,XKZM3D,                 &
-                        HFXPBL2D,QFXPBL2D,UFXPBL2D,VFXPBL2D,BFXPBL2D,WE2D &
+                        XKZQ3D,XKZH3D,XKZM3D,RI3D,                 &
+                        HFXPBL2D,QFXPBL2D,UFXPBL2D,VFXPBL2D,BFXPBL2D,WE2D, &
+                        HGAMT2D,HGAMQ2D                       &
 !                        XKZQ,XKZH,XKZM                        &
 ! end added by baird
                                                               )

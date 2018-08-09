@@ -84,8 +84,9 @@ CONTAINS
                  ,f_qv,f_qc,f_qr                                   &
                  ,f_qi,f_qs,f_qg                                   &
 ! baird add diffusion coefficients to function call
-                 ,xkzq3d,xkzh3d,xkzm3d                             &
+                 ,xkzq3d,xkzh3d,xkzm3d,ri3d                             &
                  ,hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d &
+                 ,hgamt2d,hgamq2d &
 !                 ,xkzq   ,xkzh   ,xkzm                             &
 ! end baird added
 ! variables added for BEP
@@ -672,9 +673,9 @@ CONTAINS
 
 !!!!!!!!!! added by baird 2018/7/20 
    REAL, DIMENSION( ims:ime, kms:kme, jms:jme ),                  &
-         INTENT(INOUT) :: xkzq3d,xkzh3d,xkzm3d
+         INTENT(INOUT) :: xkzq3d,xkzh3d,xkzm3d,ri3d
    REAL, DIMENSION( ims:ime, jms:jme),                            &
-         INTENT(INOUT) :: hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d
+         INTENT(INOUT) :: hfxpbl2d,qfxpbl2d,ufxpbl2d,vfxpbl2d,bfxpbl2d,we2d,hgamt2d,hgamq2d
 !   REAL, DIMENSION( ims:ime, kms:kme ),                           &
 !         INTENT(IN) :: xkzq, xkzh, xkzm
 !!!!!!!!!! end added by baird
@@ -1194,13 +1195,15 @@ CONTAINS
               ,IMS=ims,IME=ime,JMS=jms,JME=jme,KMS=kms,KME=kme      &
               ,ITS=its,ITE=ite,JTS=jts,JTE=jte,KTS=kts,KTE=kte      &
 ! added by baird to output diffusivity coefficients
-              ,XKZQ3D=xkzq3d,XKZH3D=xkzh3d,XKZM3D=xkzm3d      &
+              ,XKZQ3D=xkzq3d,XKZH3D=xkzh3d,XKZM3D=xkzm3d,RI3D=ri3d      &
               ,HFXPBL2D=hfxpbl2d & 
+              ,RI3D=ri3d &
               ,QFXPBL2D=qfxpbl2d &
               ,UFXPBL2D=ufxpbl2d &
               ,VFXPBL2D=vfxpbl2d &
               ,BFXPBL2D=bfxpbl2d &
               ,WE2D=we2d &
+              ,HGAMT2D=hgamt2d, HGAMQ2D=hgamq2d &
 !              ,XKZQ=xkzq,XKZH=xkzh,XKZM=xkzm                        &
 ! end added by baird
                                                                     )

@@ -1080,9 +1080,10 @@ endif
                       grid%rublten,grid%rvblten,grid%rthblten,               &
                       grid%rqvblten,grid%rqcblten,grid%rqiblten,             &
 ! added by baird
-                      grid%xkzq3d,grid%xkzh3d,grid%xkzm3d,                   &
+                      grid%xkzq3d,grid%xkzh3d,grid%xkzm3d,grid%ri3d,                   &
                       grid%hfxpbl2d,grid%qfxpbl2d,grid%ufxpbl2d,grid%vfxpbl2d, &
                       grid%bfxpbl2d,grid%we2d,                                 &
+                      grid%hgamt2d,grid%hgamq2d,                             &
 !                      grid%xkzq,grid%xkzh,grid%xkzm,                         &
 ! end added by baird
                       grid%rthraten,grid%rthratenlw,grid%rthratensw,         &
